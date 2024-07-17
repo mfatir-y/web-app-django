@@ -1,19 +1,36 @@
 {% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
+    <style>
+        .submit-btn {
+            color:  #1c8aff;
+            border-color: #1c8aff;
+        }
+
+        .submit-btn:hover {
+            color: white;
+            background-color: #1c8aff;
+            border-color: #1c8aff;
+        }
+
+        .sign-in:hover {
+            text-decoration: underline;
+        }
+    </style>
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Join Today!</legend>
-                {{ form.as_p }}
+                {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info mb-3" type="submit">Sign Up</button>
+                <button class="btn btn-outline-info mb-3 submit-btn" type="submit">Sign Up</button>
             </div>
         </form>
         <div class="border-top pt-3">
             <small class="text-muted">
-                Already Have An Account? <a class="ml-2" href="#">Sign In</a>
+                Already Have An Account? <a class="ml-2 sign-in" href="#">Sign In</a>
             </small>
         </div>
     </div>
