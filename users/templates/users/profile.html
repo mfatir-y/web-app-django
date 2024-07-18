@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h2>Hello, {{user.username}}!</h2>
+    <p>
+        Email: {{user.email}} <br>
+        First Name: {{user.first_name}} <br>
+        Last Name: {{user.last_name}}
+    </p>
+{% endblock %}
