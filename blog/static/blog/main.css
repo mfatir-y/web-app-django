@@ -100,3 +100,14 @@ a.article-title:hover {
 a {
   text-decoration: none;
 }
+
+.submit-btn {
+  color:  #1c8aff;
+  border-color: #1c8aff;
+}
+
+.submit-btn:hover {
+  color: white;
+  background-color: #1c8aff;
+  border-color: #1c8aff;
+}

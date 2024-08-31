@@ -1,18 +1,6 @@
 {% extends 'blog/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <style>
-        .submit-btn {
-            color:  #1c8aff;
-            border-color: #1c8aff;
-        }
-
-        .submit-btn:hover {
-            color: white;
-            background-color: #1c8aff;
-            border-color: #1c8aff;
-        }
-    </style>
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
