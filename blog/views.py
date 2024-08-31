@@ -14,6 +14,7 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
+        context['title'] = 'Home'
         return context
 
 class UserPostListView(ListView):
@@ -29,6 +30,7 @@ class UserPostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
+        context['title'] = User.objects.get(username=self.kwargs.get('username')).username + "'s Posts"
         return context
 
 class PostDetailView(DetailView):
@@ -37,6 +39,7 @@ class PostDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
+        context['title'] = models.Post.objects.get(pk=self.kwargs.get('pk')).title[:20] + '...'
         return context
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -50,6 +53,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
+        context['title'] = 'Create Post'
         return context
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -64,6 +68,12 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         post = self.get_object()
         return self.request.user == post.author
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
+        context['title'] = 'Update Post'
+        return context
+    
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = models.Post
     success_url = '/'
@@ -71,6 +81,12 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
+        context['title'] = 'Delete Post'
+        return context
 
 def about(request):
     context = {'latest_posts': models.Post.objects.all().order_by('-date_posted')[:3], 'title': 'About'}

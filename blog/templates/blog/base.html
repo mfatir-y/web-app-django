@@ -55,13 +55,13 @@
                 <div class="content-section">
                     {% if user.is_authenticated %}
                         <h4 class="mt-1 mb-3">Signed in as {{user.username}}</h4>
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'post-create' %}" class="btn submit-btn">Create a new post</a>
-                            <a href="{% url 'user-posts' user.username %}" class="btn submit-btn">View my posts</a>
+                        <div class="d-flex justify-content-between gap-2">
+                            <a href="{% url 'post-create' %}" class="btn submit-btn w-100">Create a new post</a>
+                            <a href="{% url 'user-posts' user.username %}" class="btn submit-btn w-100">View my posts</a>
                         </div>
                         <hr>
                     {% endif %}
-                    <h3>Common Links</h3>
+                    <h3>Quick Links</h3>
                     <p class='text-muted'>
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-light">Latest Posts
