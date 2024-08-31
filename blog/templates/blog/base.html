@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
-                <a href="{% url 'blog-home' %}" class="navbar-brand mr-4">DJANGO BLOG</a>
+                <a href="{% url 'blog-home' %}" class="navbar-brand mr-3">PROJECT BLOG</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -54,11 +54,18 @@
             </div>
             <div class="col-md-4">
                 <div class="content-section">
-                    <h3>Our Sidebar</h3>
-                    <p class='text-muted'>You can put any information here you'd like.
+                    {% if user.is_authenticated %}
+                        <p class="lead">Signed in as {{user.username}}</p>
+                        <hr>
+                    {% endif %}
+                    <h3>Common Links</h3>
+                    <p class='text-muted'>
                         <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">Latest Post</li>
-                            <li class="list-group-item list-group-item-light">Anouncements</li>
+                            <li class="list-group-item list-group-item-light">Latest Posts
+                                {% for post in latest_posts %}
+                                <a href="{% url 'post-detail' post.id %}" class="list-group-item list-group-item-action">{{ post.title }}</a>
+                                {% endfor %}                                
+                            </li>
                             <li class="list-group-item list-group-item-light">Calendars</li>
                             <li class="list-group-item list-group-item-light">etc</li>
                         </ul>
@@ -69,6 +76,6 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 </html>
