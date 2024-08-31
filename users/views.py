@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from blog.utils import add_latest_posts
 
 def register(request):
     if request.method == "POST":
@@ -14,12 +15,17 @@ def register(request):
             return redirect("login")
     else:
         form = UserRegisterForm()
-    return render(request, "users/register.html", {"form": form})
+    
+    context = {"form": form, "title": "Register Account"}
+    context = add_latest_posts(context)
+    return render(request, "users/register.html", context)
 
 @login_required
 def user_logout(request):
     logout(request)
-    return render(request, "users/logout.html")
+    context = {"title": "Logged Out"}
+    context = add_latest_posts(context)
+    return render(request, "users/logout.html", context)
 
 @login_required
 def profile(request):
@@ -38,5 +44,7 @@ def profile(request):
     context = {
         "u_form": u_form,
         "p_form": p_form,
+        "title": "Profile"
     }   
+    context = add_latest_posts(context)
     return render(request, "users/profile.html", context)

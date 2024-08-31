@@ -3,21 +3,17 @@ from . import models
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from .utils import CommonPostsMixin, add_latest_posts
 
-class PostListView(ListView):
+class PostListView(CommonPostsMixin, ListView):
     model = models.Post
     template_name = 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 8
+    title = 'Home'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
-        context['title'] = 'Home'
-        return context
-
-class UserPostListView(ListView):
+class UserPostListView(CommonPostsMixin, ListView):
     model = models.Post
     template_name = 'blog/user_posts.html'
     context_object_name = 'posts'
@@ -26,39 +22,24 @@ class UserPostListView(ListView):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return models.Post.objects.filter(author=user).order_by('-date_posted')
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
-        context['title'] = User.objects.get(username=self.kwargs.get('username')).username + "'s Posts"
-        return context
 
-class PostDetailView(DetailView):
+class PostDetailView(CommonPostsMixin, DetailView):
     model = models.Post
+    title = 'Post Detail'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
-        context['title'] = models.Post.objects.get(pk=self.kwargs.get('pk')).title[:20] + '...'
-        return context
-
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(CommonPostsMixin, LoginRequiredMixin, CreateView):
     model = models.Post
     fields = ['title', 'content']
+    title = 'Create Post'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
-        context['title'] = 'Create Post'
-        return context
 
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class PostUpdateView(CommonPostsMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = models.Post
     fields = ['title', 'content']
+    title = 'Update Post'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -68,26 +49,16 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         post = self.get_object()
         return self.request.user == post.author
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
-        context['title'] = 'Update Post'
-        return context
-    
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class PostDeleteView(CommonPostsMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = models.Post
     success_url = '/'
+    title = 'Delete Post'
 
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['latest_posts'] = models.Post.objects.all().order_by('-date_posted')[:3]
-        context['title'] = 'Delete Post'
-        return context
 
 def about(request):
-    context = {'latest_posts': models.Post.objects.all().order_by('-date_posted')[:3], 'title': 'About'}
+    context = {'title': 'About'}
+    context = add_latest_posts(context)
     return render(request, 'blog/about.html', context)
