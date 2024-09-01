@@ -2,7 +2,7 @@
 {% block content %}
     <style>
         .sign-in {
-            margin-right: 10px;
+            margin-right: 20px;
         }
 
         .sign-in:hover {
@@ -12,8 +12,8 @@
     <h3>You have been logged out!</h3>
     <div class="border-top pt-3">
         <small class="text-muted">
-            <a class="sign-in" href="{% url 'login' %}">Log In</a>
-            <a class="sign-in" href="{% url 'register' %}">Sign Up</a>
+            <a class="sign-in lead" href="{% url 'login' %}">Log In</a>
+            <a class="sign-in lead" href="{% url 'register' %}">Register New Account</a>
         </small>
     </div>
 {% endblock %}
