@@ -1,7 +1,7 @@
 body {
     background: #fafafa;
     color: #333333;
-    margin-top: 5rem;
+    margin-top: 6rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,6 +28,10 @@ ul {
 
 .site-header .nav-link:hover {
   color: #7e7e7e;
+}
+
+.site-footer .nav-link:hover {
+  text-decoration: underline;
 }
 
 .content-section {
