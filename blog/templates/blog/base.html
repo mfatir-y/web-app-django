@@ -74,14 +74,17 @@
     </main>
 
     <div class="container site-footer">
-        <footer class="py-3 my-5 border-top">
-          <ul class="nav justify-content-center pb-3">
-            <li class="nav-item"><a href="/" class="nav-link mx-5 text-body-secondary">Home</a></li>
-            <li class="nav-item"><a href="{% url 'user-posts' user.username %}" class="nav-link mx-5 text-body-secondary">My Account</a></li>
-            <li class="nav-item"><a href="{% url 'profile' %}" class="nav-link mx-5 text-body-secondary">My Profile</a></li>
-            <li class="nav-item"><a href="{% url 'blog-about' %}" class="nav-link mx-5 text-body-secondary">About</a></li>
-          </ul>
-          <p class="text-center lead pb-4 border-bottom">© 2024 Project Blog</p>
+        <footer class="py-3 mt-5 border-top">
+            <ul class="nav justify-content-center">
+                <a href="/" class="nav-link text-body-secondary my-1">Home</a>
+                <a href="{% url 'user-posts' user.username %}" class="nav-link text-body-secondary my-1">My Activities</a>
+                <a href="{% url 'profile' %}" class="nav-link text-body-secondary my-1">My Profile</a>
+                <a href="{% url 'blog-about' %}" class="nav-link text-body-secondary my-1">About</a>
+            </ul>
+            <div>
+                <p class="text-center lead pb-4 pt-1 border-bottom">© 2024 Project Blog</p>
+                <p class="text-center lead pb-3 border-bottom">Made by Fatir</p>
+            </div>
         </footer>
       </div>
 
